@@ -1,11 +1,41 @@
 import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { useDispatch } from "react-redux";
+import { setDestination, setOrigin } from "../slices/navSlice";
 const HomeScreen = () => {
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
+      <GooglePlacesAutocomplete
+        placeholder="Ubicación origen"
+        nearbyPlacesAPI="GooglePlacesSearch"
+        debounce={400}
+        enablePoweredByContainer={false}
+        minLength={2}
+        query={{
+          key: "AIzaSyDx5v3iGIIcAxjb60jqki-YDvuJ_qR5y58",
+          language: "es",
+        }}
+        onPress={(data, details = null) => {
+          dispatch(
+            setOrigin({
+              location: details.geometry.location,
+              description: details.description,
+            })
+          );
+          dispatch(setDestination(null));
+        }}
+        fetchDetails={true}
+        styles={{
+          container: {
+            flex: 0,
+            marginHorizontal: 10,
+          },
+        }}
+      />
       <TouchableOpacity
         style={styles.touchable}
         onPress={() => navigation.navigate("Mapa")}
@@ -16,7 +46,7 @@ const HomeScreen = () => {
             source={{ uri: "https://links.papareact.com/3pn" }}
           />
         </View>
-        <Text style={styles.text}>Enviar paquete</Text>
+        <Text style={styles.text}>Solicitar chofer</Text>
       </TouchableOpacity>
     </View>
   );
