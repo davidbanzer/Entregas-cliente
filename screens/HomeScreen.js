@@ -2,10 +2,11 @@ import { useNavigation } from "@react-navigation/core";
 import React from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useDispatch } from "react-redux";
-import { setDestination, setOrigin } from "../slices/navSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectOrigin, setDestination, setOrigin } from "../slices/navSlice";
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const origin = useSelector(selectOrigin);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -23,7 +24,7 @@ const HomeScreen = () => {
           dispatch(
             setOrigin({
               location: details.geometry.location,
-              description: details.description,
+              description: data.description,
             })
           );
           dispatch(setDestination(null));
@@ -39,6 +40,7 @@ const HomeScreen = () => {
       <TouchableOpacity
         style={styles.touchable}
         onPress={() => navigation.navigate("Mapa")}
+        disabled={!origin}
       >
         <View>
           <Image
