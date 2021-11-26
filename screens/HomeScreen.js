@@ -35,6 +35,14 @@ const HomeScreen = () => {
             flex: 0,
             marginHorizontal: 10,
           },
+          textInput: {
+            backgroundColor: "#DDDDDF",
+            borderRadius: 0,
+          },
+          textInputContainer: {
+            paddingHorizontal: 10,
+            marginTop: 20,
+          },
         }}
       />
       <TouchableOpacity
