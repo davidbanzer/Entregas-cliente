@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useSelector } from "react-redux";
+import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/core";
 import {
   selectDestination,
   selectOrigin,
   selectToken,
 } from "../slices/navSlice";
+
 const RideOptionsCard = () => {
   const token = useSelector(selectToken);
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
+  const navigation = useNavigation();
   const [price, setPrice] = useState({});
   useEffect(() => {
     fetchPrice();
@@ -39,12 +49,66 @@ const RideOptionsCard = () => {
       });
   };
   return (
-    <View>
-      <Text>{price.precio}</Text>
+    <View style={styles.container}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.navigate("NavigateCard")}>
+          <View>
+            <FontAwesome
+              style={{ fontSize: 35, marginLeft: "20%", marginVertical: 10 }}
+              name="angle-left"
+              backgroundColor="black"
+            ></FontAwesome>
+          </View>
+        </TouchableOpacity>
+        <Text
+          style={{
+            textAlign: "center",
+            paddingVertical: 7,
+            fontSize: 20,
+            marginRight: "27%",
+            marginVertical: 10,
+          }}
+        >
+          Precio de la entrega
+        </Text>
+      </View>
+      <Text style={{ textAlign: "center", fontSize: 18 }}>
+        {price.precio} Bs
+      </Text>
+
+      <Pressable style={styles.button}>
+        <Text style={styles.text}>Pedir</Text>
+      </Pressable>
     </View>
   );
 };
 
 export default RideOptionsCard;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  button: {
+    position: "absolute",
+    bottom: 100,
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    backgroundColor: "black",
+    width: 200,
+  },
+  text: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
+});
