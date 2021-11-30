@@ -3,41 +3,12 @@ import React from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectDestination,
-  selectOrigin,
-  selectToken,
-  setDestination,
-} from "../slices/navSlice";
+import { setDestination } from "../slices/navSlice";
 const NavigateCard = () => {
   const dispatch = useDispatch();
-  const token = useSelector(selectToken);
-  const origin = useSelector(selectOrigin);
-  const destination = useSelector(selectDestination);
+
   const navigation = useNavigation();
-  const fetchPrice = () => {
-    fetch("http://apimoviles2.jmacboy.com/api/calcularprecio", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      body: JSON.stringify({
-        latitudOrigen: origin.location.lat,
-        latitudDestino: destination.location.lat,
-        longitudOrigen: origin.location.lng,
-        longitudDestino: destination.location.lng,
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Text style={styles.title}>Seleccione el destino</Text>
@@ -60,7 +31,7 @@ const NavigateCard = () => {
                 description: data.description,
               })
             );
-            fetchPrice();
+            navigation.navigate("RideOptionsCard");
           }}
           styles={{
             container: {
