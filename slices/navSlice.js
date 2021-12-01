@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   origin: null,
   destination: null,
-  token: null,
+  user: null,
 };
 export const navSlice = createSlice({
   name: "nav",
@@ -15,16 +15,16 @@ export const navSlice = createSlice({
     setDestination: (state, action) => {
       state.destination = action.payload;
     },
-    setToken: (state, action) => {
-      state.token = action.payload;
+    setUser: (state, action) => {
+      state.user = action.payload;
     },
   },
 });
 
-export const { setOrigin, setDestination, setToken } = navSlice.actions;
+export const { setOrigin, setDestination, setUser } = navSlice.actions;
 
 export const selectOrigin = (state) => state.nav.origin;
 export const selectDestination = (state) => state.nav.destination;
-export const selectToken = (state) => state.nav.token;
+export const selectUser = (state) => state.nav.user;
 
 export default navSlice.reducer;

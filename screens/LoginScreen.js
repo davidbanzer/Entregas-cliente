@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import { useDispatch } from "react-redux";
-import { setToken } from "../slices/navSlice";
+import { setUser } from "../slices/navSlice";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -31,10 +31,9 @@ const LoginScreen = () => {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         if (!json.message) {
           navigation.navigate("Entregas");
-          dispatch(setToken(json.access_token));
+          dispatch(setUser(json));
         } else {
           Alert.alert("Usuario incorrecto");
         }

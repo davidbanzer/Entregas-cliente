@@ -12,25 +12,25 @@ import { useNavigation } from "@react-navigation/core";
 import {
   selectDestination,
   selectOrigin,
-  selectToken,
+  selectUser,
 } from "../slices/navSlice";
 
 const RideOptionsCard = () => {
-  const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
   const origin = useSelector(selectOrigin);
   const destination = useSelector(selectDestination);
   const navigation = useNavigation();
   const [price, setPrice] = useState({});
   useEffect(() => {
-    fetchPrice();
+    calculatePrice();
   }, []);
-  const fetchPrice = () => {
+  const calculatePrice = () => {
     fetch("http://apimoviles2.jmacboy.com/api/calcularprecio", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + user.access_token,
       },
       body: JSON.stringify({
         latitudOrigen: origin.location.lat,
@@ -43,6 +43,31 @@ const RideOptionsCard = () => {
       .then((json) => {
         console.log(json);
         setPrice(json);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  const createDelivery = () => {
+    fetch("http://apimoviles2.jmacboy.com/api/entregas", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + user.access_token,
+      },
+      body: JSON.stringify({
+        latitudOrigen: origin.location.lat,
+        latitudDestino: destination.location.lat,
+        longitudOrigen: origin.location.lng,
+        longitudDestino: destination.location.lng,
+        precio: price.precio,
+        client_id: user.cliente,
+      }),
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
       })
       .catch((error) => {
         console.error(error);
@@ -81,7 +106,7 @@ const RideOptionsCard = () => {
         {price.precio} Bs
       </Text>
 
-      <Pressable style={styles.button}>
+      <Pressable style={styles.button} onPress={() => createDelivery()}>
         <Text style={styles.text}>Pedir</Text>
       </Pressable>
     </View>
