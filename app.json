@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "entregas",
-    "slug": "entregas",
+    "name": "Entregas-Cliente",
+    "slug": "Entregas-Cliente",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
