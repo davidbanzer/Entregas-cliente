@@ -35,6 +35,8 @@ const LoginScreen = () => {
         if (!json.message) {
           navigation.navigate("Entregas");
           dispatch(setUser(json));
+          setEmail("");
+          setPassword("");
         } else {
           showToast();
         }
