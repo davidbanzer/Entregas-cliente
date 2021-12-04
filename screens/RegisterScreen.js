@@ -1,41 +1,38 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import {
-  Alert,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   ToastAndroid,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
-import { setUser } from "../slices/navSlice";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-const LoginScreen = () => {
-  const dispatch = useDispatch();
-  const navigation = useNavigation();
+const RegisterScreen = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const fetchLogin = () => {
-    fetch("http://apimoviles2.jmacboy.com/api/login", {
+  const navigation = useNavigation();
+  const fetchRegister = () => {
+    fetch("http://apimoviles2.jmacboy.com/api/clientes", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        name: name,
         email: email,
         password: password,
       }),
     })
       .then((response) => response.json())
       .then((json) => {
-        if (!json.message) {
-          navigation.navigate("Entregas");
-          dispatch(setUser(json));
-        } else {
+        console.log(json);
+        if (json.user_id) {
+          navigation.navigate("Login");
           showToast();
         }
       })
@@ -44,14 +41,20 @@ const LoginScreen = () => {
       });
   };
   const showToast = () => {
-    ToastAndroid.show("Datos Incorrectos", ToastAndroid.LONG);
+    ToastAndroid.show("Usuario Registrado", ToastAndroid.LONG);
   };
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <View>
-          <Text style={styles.title}>UBER PEDIDOS</Text>
+          <Text style={styles.title}>REGISTRARSE</Text>
         </View>
+        <TextInput
+          style={styles.input}
+          onChangeText={setName}
+          value={name}
+          placeholder="Nombre"
+        />
         <TextInput
           style={styles.input}
           onChangeText={setEmail}
@@ -65,19 +68,22 @@ const LoginScreen = () => {
           value={password}
           placeholder="Contraseña"
         />
-        <Pressable style={styles.button} onPress={() => fetchLogin()}>
-          <Text style={styles.text}>Iniciar</Text>
+        <Pressable style={styles.button} onPress={() => fetchRegister()}>
+          <Text style={styles.text}>Registrarse</Text>
         </Pressable>
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate("Register")}
+          onPress={() => navigation.navigate("Login")}
         >
-          <Text style={styles.text}>Registrarse</Text>
+          <Text style={styles.text}>Cancelar</Text>
         </Pressable>
       </View>
     </SafeAreaView>
   );
 };
+
+export default RegisterScreen;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -110,4 +116,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-export default LoginScreen;

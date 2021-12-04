@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   Pressable,
   StyleSheet,
   Text,
@@ -68,6 +69,7 @@ const RideOptionsCard = () => {
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
+        Alert.alert("Esperando chofer ...");
       })
       .catch((error) => {
         console.error(error);
