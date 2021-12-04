@@ -34,6 +34,9 @@ const RegisterScreen = () => {
         if (json.user_id) {
           navigation.navigate("Login");
           showToast();
+          setName("");
+          setEmail("");
+          setPassword("");
         }
       })
       .catch((error) => {
