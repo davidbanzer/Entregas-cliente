@@ -39,7 +39,7 @@ const Map = () => {
           lineDashPattern={[1]}
           origin={origin.description}
           destination={destination.description}
-          apikey="AIzaSyDx5v3iGIIcAxjb60jqki-YDvuJ_qR5y58"
+          apikey=""
           strokeWidth={3}
           strokeColor="black"
         />

@@ -21,7 +21,7 @@ const NavigateCard = () => {
           minLength={2}
           fetchDetails={true}
           query={{
-            key: "AIzaSyDx5v3iGIIcAxjb60jqki-YDvuJ_qR5y58",
+            key: "",
             language: "es",
           }}
           onPress={(data, details = null) => {
